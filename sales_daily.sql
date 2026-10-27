@@ -1,8 +1,7 @@
 SELECT
-  date_date
-  ,SUM(turnover) AS turnover
+  date_date, category_1
+  ,SUM(turnover_before_promo) AS turnover_before_promo
   ,SUM(turnover) - SUM(purchase_cost) AS margin
-  ,SUM(turnover_before_promo) - SUM(turnover) AS discount
 FROM gwz_sales
-GROUP BY date_date
-ORDER BY date_date
+GROUP BY date_date, category_1
+ORDER BY date_date, category_1
