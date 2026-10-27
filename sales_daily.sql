@@ -1,15 +1,15 @@
 SELECT
   date_date
-  ,SUM(turnover) OVER (ORDER BY date_date) / 1000 AS turnover
-  ,SUM(margin) OVER (ORDER BY date_date) / 1000 AS margin
-  ,SUM(discount) OVER (ORDER BY date_date) / 1000 AS discount
+  ,category_1
+  ,SUM(turnover_before_promo) OVER (PARTITION BY category_1 ORDER BY date_date) / 1000 AS turnover_before_promo
+  ,SUM(margin) OVER (PARTITION BY category_1 ORDER BY date_date) / 1000 AS margin
 FROM (
   SELECT
     date_date
-    ,SUM(turnover) AS turnover
+    ,category_1
+    ,SUM(turnover_before_promo) AS turnover_before_promo
     ,SUM(turnover) - SUM(purchase_cost) AS margin
-    ,SUM(turnover_before_promo) - SUM(turnover) AS discount
   FROM gwz_sales
-  GROUP BY date_date
+  GROUP BY date_date, category_1
 ) AS daily
-ORDER BY date_date
+ORDER BY category_1, date_date
